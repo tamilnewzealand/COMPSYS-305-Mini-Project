@@ -33,15 +33,15 @@ applicable agreement for further details.
 	(port
 		(pt 0 48)
 		(input)
-		(text "pixel_column[9..0]" (rect 0 0 70 12)(font "Arial" ))
-		(text "pixel_column[9..0]" (rect 21 43 91 55)(font "Arial" ))
+		(text "pixel_column[10..0]" (rect 0 0 74 12)(font "Arial" ))
+		(text "pixel_column[10..0]" (rect 21 43 95 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port
 		(pt 0 64)
 		(input)
-		(text "pixel_row[9..0]" (rect 0 0 56 12)(font "Arial" ))
-		(text "pixel_row[9..0]" (rect 21 59 77 71)(font "Arial" ))
+		(text "pixel_row[10..0]" (rect 0 0 60 12)(font "Arial" ))
+		(text "pixel_row[10..0]" (rect 21 59 81 71)(font "Arial" ))
 		(line (pt 0 64)(pt 16 64)(line_width 3))
 	)
 	(port

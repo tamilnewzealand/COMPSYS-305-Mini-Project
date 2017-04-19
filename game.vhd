@@ -5,6 +5,7 @@ USE IEEE.STD_LOGIC_SIGNED.all;
 
 ENTITY game IS
    PORT(	clk, rom_mux, bt0, bt1, sw0			: IN STD_LOGIC;
+			RGB									: IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 			game_mode							: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
 			red_data, green_data, blue_data		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0));
 END game;
@@ -41,6 +42,18 @@ BEGIN
 		Red_Data_t <= "0000";
 		Green_Data_t <= "0000";
 		Blue_Data_t <= "0000";
+	END IF;
+	
+	IF s_game_mode = "11" THEN
+		IF RGB(0) = '1' THEN
+			Red_Data_t <= "1111";
+		END IF;
+		IF RGB(1) = '1' THEN
+			Green_Data_t <= "1111";
+		END IF;
+		IF RGB(2) = '1' THEN
+			Blue_Data_t <= "1111";
+		END IF;
 	END IF;
 END PROCESS;
 

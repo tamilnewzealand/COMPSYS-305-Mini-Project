@@ -8,13 +8,13 @@ ENTITY VGA_SYNC IS
 			red, green, blue: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			red_out, green_out, blue_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			horiz_sync_out, vert_sync_out	: OUT	STD_LOGIC;
-			pixel_row, pixel_column: OUT STD_LOGIC_VECTOR(9 DOWNTO 0));
+			pixel_row, pixel_column: OUT STD_LOGIC_VECTOR(10 DOWNTO 0));
 END VGA_SYNC;
 
 ARCHITECTURE a OF VGA_SYNC IS
 	SIGNAL horiz_sync, vert_sync : STD_LOGIC;
 	SIGNAL video_on, video_on_v, video_on_h : STD_LOGIC;
-	SIGNAL h_count, v_count :STD_LOGIC_VECTOR(9 DOWNTO 0);
+	SIGNAL h_count, v_count :STD_LOGIC_VECTOR(10 DOWNTO 0);
 
 BEGIN
 
@@ -34,7 +34,7 @@ BEGIN
 --  H_count       0                640             659       755    799
 --
 	IF (h_count = 799) THEN
-   		h_count <= "0000000000";
+   		h_count <= "00000000000";
 	ELSE
    		h_count <= h_count + 1;
 	END IF;
@@ -52,7 +52,7 @@ BEGIN
 --  V_count         0                                      480    493-494          524
 --
 	IF (v_count >= 524) AND (h_count >= 699) THEN
-   		v_count <= "0000000000";
+   		v_count <= "00000000000";
 	ELSIF (h_count = 699) THEN
    		v_count <= v_count + 1;
 	END IF;

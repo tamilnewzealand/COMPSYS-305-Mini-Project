@@ -81,15 +81,6 @@ set_location_assignment PIN_E1 -to led5
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name VHDL_FILE keyboard.vhd
-set_global_assignment -name VHDL_FILE decoder_7seg.vhd
-set_global_assignment -name VHDL_FILE vga_sync.vhd
-set_global_assignment -name VHDL_FILE mouse.VHD
-set_global_assignment -name VHDL_FILE char_rom.vhd
-set_global_assignment -name VHDL_FILE ball.vhd
-set_global_assignment -name BDF_FILE Miniproject.bdf
-set_global_assignment -name VHDL_FILE game.vhd
-set_global_assignment -name VHDL_FILE game_text.vhd
 set_location_assignment PIN_L21 -to horiz_sync_out
 set_location_assignment PIN_K18 -to blue[3]
 set_location_assignment PIN_J22 -to blue[2]
@@ -111,4 +102,29 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_location_assignment PIN_J6 -to sw0
+set_global_assignment -name VHDL_FILE lsfr.vhd
+set_global_assignment -name VHDL_FILE tank.vhd
+set_global_assignment -name VHDL_FILE keyboard.vhd
+set_global_assignment -name VHDL_FILE decoder_7seg.vhd
+set_global_assignment -name VHDL_FILE vga_sync.vhd
+set_global_assignment -name VHDL_FILE mouse.VHD
+set_global_assignment -name VHDL_FILE char_rom.vhd
+set_global_assignment -name VHDL_FILE ball.vhd
+set_global_assignment -name BDF_FILE Miniproject.bdf
+set_global_assignment -name VHDL_FILE game.vhd
+set_global_assignment -name VHDL_FILE game_text.vhd
+set_location_assignment PIN_D15 -to seg2[0]
+set_location_assignment PIN_A16 -to seg2[1]
+set_location_assignment PIN_B16 -to seg2[2]
+set_location_assignment PIN_E15 -to seg2[3]
+set_location_assignment PIN_A17 -to seg2[4]
+set_location_assignment PIN_B17 -to seg2[5]
+set_location_assignment PIN_F14 -to seg2[6]
+set_location_assignment PIN_B18 -to seg3[0]
+set_location_assignment PIN_F15 -to seg3[1]
+set_location_assignment PIN_A19 -to seg3[2]
+set_location_assignment PIN_B19 -to seg3[3]
+set_location_assignment PIN_C19 -to seg3[4]
+set_location_assignment PIN_D19 -to seg3[5]
+set_location_assignment PIN_G15 -to seg3[6]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

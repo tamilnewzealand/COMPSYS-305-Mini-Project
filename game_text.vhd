@@ -6,7 +6,7 @@ USE IEEE.STD_LOGIC_UNSIGNED.all;
 ENTITY game_text IS
 Generic(ADDR_WIDTH: integer := 12; DATA_WIDTH: integer := 1);
    PORT(signal sw0							: in std_logic;
-		  signal pixel_column, pixel_row	: in std_logic_vector(9 downto 0);
+		  signal pixel_column, pixel_row	: in std_logic_vector(10 downto 0);
 		  signal game_mode					: in std_logic_vector(1 downto 0);
 		  signal char_add					: out std_logic_vector(5 downto 0);
 		  signal char_row, char_col			: out std_logic_vector(2 downto 0));
@@ -15,7 +15,7 @@ end game_text;
 architecture behavior of game_text is
 
 -- Video Display Signals   
-signal pixel_row_t, pixel_column_t		: std_logic_vector(9 downto 0);
+signal pixel_row_t, pixel_column_t		: std_logic_vector(10 downto 0);
 
 begin           
 
@@ -484,47 +484,6 @@ begin
 			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(384, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(5, 6);
-		--No Text
-		else
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
-		end if;
-	-- गेम स्क्रीन
-	elsif game_mode = "11" then
-		--GAME	
-		--G
-		if (pixel_column_t >= CONV_STD_LOGIC_VECTOR(288, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(304, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(335, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(7, 6);
-		--A
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(304, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(335, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(1, 6);
-		--M
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(336, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(335, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(13, 6);
-		--E
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(336, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(335, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(5, 6);
