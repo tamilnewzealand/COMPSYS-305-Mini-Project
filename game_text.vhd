@@ -4,10 +4,9 @@ USE IEEE.STD_LOGIC_ARITH.all;
 USE IEEE.STD_LOGIC_UNSIGNED.all;
 
 ENTITY game_text IS
-Generic(ADDR_WIDTH: integer := 12; DATA_WIDTH: integer := 1);
    PORT(signal sw0							: in std_logic;
 		  signal pixel_column, pixel_row	: in std_logic_vector(10 downto 0);
-		  signal game_mode					: in std_logic_vector(1 downto 0);
+		  signal game_mode					: in std_logic_vector(2 downto 0);
 		  signal char_add					: out std_logic_vector(5 downto 0);
 		  signal char_row, char_col			: out std_logic_vector(2 downto 0));
 end game_text;
@@ -25,7 +24,7 @@ pixel_row_t <= pixel_row;
 TEXT_Display: process (pixel_column_t, pixel_row_t, sw0)
 begin
 	-- माईन मेनू स्क्रीन
-	if game_mode = "00" then
+	if game_mode = "001" then
 		--Display *TANK GAME*
 		--*
 		if (pixel_column_t >= CONV_STD_LOGIC_VECTOR(128, 10)) and
@@ -414,79 +413,6 @@ begin
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(14, 6);	
-		--No Text
-		else
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
-		end if;
-	-- प्रैक्टिस स्क्रीन
-	elsif game_mode = "10" then
-		--PRACTICE
-		--P
-		if (pixel_column_t >= CONV_STD_LOGIC_VECTOR(256, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(272, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(16, 6);
-		--R
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(272, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(288, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(18, 6);
-		--A
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(288, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(304, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(1, 6);
-		--C
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(304, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(3, 6);
-		--T
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(336, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(20, 6);
-		--I
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(336, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(9, 6);
-		--C
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(368, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(3, 6);
-		--E
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(368, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(384, 10)) and
-			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
-			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(367, 10)) then
-			char_row <= pixel_row_t(3 downto 1);
-			char_col <= pixel_column_t(3 downto 1);
-			char_add <= CONV_STD_LOGIC_VECTOR(5, 6);
 		--No Text
 		else
 			char_row <= pixel_row_t(3 downto 1);

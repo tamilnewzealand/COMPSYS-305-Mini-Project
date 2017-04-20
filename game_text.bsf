@@ -47,8 +47,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 80)
 		(input)
-		(text "game_mode[1..0]" (rect 0 0 69 12)(font "Arial" ))
-		(text "game_mode[1..0]" (rect 21 75 90 87)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 0 0 70 12)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 21 75 91 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80)(line_width 3))
 	)
 	(port
@@ -72,18 +72,7 @@ applicable agreement for further details.
 		(text "char_col[2..0]" (rect 157 59 211 71)(font "Arial" ))
 		(line (pt 232 64)(pt 216 64)(line_width 3))
 	)
-	(parameter
-		"ADDR_WIDTH"
-		"12"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"DATA_WIDTH"
-		"1"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
 		(rectangle (rect 16 16 216 96)(line_width 1))
 	)
-	(annotation_block (parameter)(rect 248 -64 348 16))
 )

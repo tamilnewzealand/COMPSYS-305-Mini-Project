@@ -40,8 +40,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 64)
 		(input)
-		(text "game_mode[1..0]" (rect 0 0 69 12)(font "Arial" ))
-		(text "game_mode[1..0]" (rect 21 59 90 71)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 0 0 70 12)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 21 59 91 71)(font "Arial" ))
 		(line (pt 0 64)(pt 16 64)(line_width 3))
 	)
 	(port

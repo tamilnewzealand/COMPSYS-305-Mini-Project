@@ -68,8 +68,8 @@ applicable agreement for further details.
 	(port
 		(pt 216 32)
 		(output)
-		(text "game_mode[1..0]" (rect 0 0 69 12)(font "Arial" ))
-		(text "game_mode[1..0]" (rect 126 27 195 39)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 0 0 70 12)(font "Arial" ))
+		(text "game_mode[2..0]" (rect 125 27 195 39)(font "Arial" ))
 		(line (pt 216 32)(pt 200 32)(line_width 3))
 	)
 	(port
