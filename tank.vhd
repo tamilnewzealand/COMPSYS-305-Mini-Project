@@ -4,7 +4,7 @@ USE IEEE.STD_LOGIC_ARITH.all;
 USE IEEE.STD_LOGIC_SIGNED.all;
 
 ENTITY tank IS
-   PORT(SIGNAL RGB 						: OUT std_logic_vector(2 DOWNTO 0);
+   PORT(SIGNAL RGB 						: OUT std_logic_vector(11 DOWNTO 0);
 		SIGNAL pixel_row, pixel_column  : IN std_logic_vector(10 DOWNTO 0);
 		SIGNAL game_mode				: IN std_logic_vector(2 DOWNTO 0);
         SIGNAL Horiz_sync, Vert_sync	: IN std_logic;
@@ -15,8 +15,7 @@ ENTITY tank IS
 END tank;
 
 architecture behavior of tank is 
-SIGNAL Ball_on, Player_on					: std_logic;
-SIGNAL Bullet_on							: std_logic;
+SIGNAL Tank_on, Player_on, Bullet_on		: std_logic := '0';
 SIGNAL s_score								: std_logic_vector(7 DOWNTO 0) := X"00";
 SIGNAL s_active								: std_logic := '0';
 SIGNAL Bullet_Y_motion						: std_logic_vector(10 DOWNTO 0);
@@ -33,47 +32,61 @@ Bullet_Size <= CONV_STD_LOGIC_VECTOR(4,11);
 Ball_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
 Player_Y_pos <= CONV_STD_LOGIC_VECTOR(430, 11);
 
-		-- Colors for pixel data on video signal
-RGB(0) <=  '1' AND NOT Player_on AND NOT Bullet_on;
-RGB(1) <=  '1' AND NOT Ball_on AND NOT Bullet_on;
-RGB(2) <=  '1' AND NOT Ball_on AND NOT Player_on;
+RGB(0) <= '1' AND NOT Player_on AND NOT Bullet_on;
+RGB(1) <= '1' AND NOT Player_on AND NOT Bullet_on;
+RGB(2) <= '1' AND NOT Player_on AND NOT Bullet_on;
+RGB(3) <= '1' AND NOT Player_on AND NOT Bullet_on;
+RGB(4) <= '1' AND NOT Tank_on AND NOT Bullet_on;
+RGB(5) <= '1' AND NOT Tank_on AND NOT Bullet_on;
+RGB(6) <= '1' AND NOT Tank_on AND NOT Bullet_on;
+RGB(7) <= '1' AND NOT Tank_on AND NOT Bullet_on;
+RGB(8) <= '1' AND NOT Tank_on AND NOT Player_on;
+RGB(9) <= '1' AND NOT Tank_on AND NOT Player_on;
+RGB(10) <= '1' AND NOT Tank_on AND NOT Player_on;
+RGB(11) <= '1' AND NOT Tank_on AND NOT Player_on;
 
-RGB_Display_Ball: Process (Bullet_X_pos, Bullet_Y_pos, Player_X_pos, Player_Y_pos, Ball_X_pos, Ball_Y_pos, pixel_column, pixel_row, Size, Bullet_Size)
+RGB_Display_Ball: Process (game_mode, Bullet_X_pos, Bullet_Y_pos, Player_X_pos, Player_Y_pos, Ball_X_pos, Ball_Y_pos, pixel_column, pixel_row, Size, Bullet_Size)
 BEGIN
-	IF ('0' & Ball_X_pos <= pixel_column + Size) AND
- 	(Ball_X_pos + Size >= '0' & pixel_column) AND
- 	('0' & Ball_Y_pos <= pixel_row + Size) AND
- 	(Ball_Y_pos + Size >= '0' & pixel_row ) THEN
- 		Ball_on <= '1';
- 	ELSE
- 		Ball_on <= '0';
-	END IF;
-	
-	IF ('0' & Player_X_pos <= pixel_column + Size) AND
- 	(Player_X_pos + Size >= '0' & pixel_column) AND
- 	('0' & Player_Y_pos <= pixel_row + Size) AND
- 	(Player_Y_pos + Size >= '0' & pixel_row ) THEN
- 		Player_on <= '1';
- 	ELSE
- 		Player_on <= '0';
-	END IF;
-	
-	IF s_active = '1' AND 
-	('0' & Bullet_X_pos <= pixel_column + Bullet_Size) AND
- 	(Bullet_X_pos + Bullet_Size >= '0' & pixel_column) AND
- 	('0' & Bullet_Y_pos <= pixel_row + Bullet_Size) AND
- 	(Bullet_Y_pos + Bullet_Size >= '0' & pixel_row ) THEN
- 		Bullet_on <= '1';
- 	ELSE
- 		Bullet_on <= '0';
+	IF game_mode = "001" OR game_mode = "010" OR game_mode = "100" OR game_mode = "110" THEN
+		IF ('0' & Ball_X_pos <= pixel_column + Size) AND
+		(Ball_X_pos + Size >= '0' & pixel_column) AND
+		('0' & Ball_Y_pos <= pixel_row + Size) AND
+		(Ball_Y_pos + Size >= '0' & pixel_row ) THEN
+			Tank_on <= '1';
+		ELSE
+			Tank_on <= '0';
+		END IF;
+		
+		IF ('0' & Player_X_pos <= pixel_column + Size) AND
+		(Player_X_pos + Size >= '0' & pixel_column) AND
+		('0' & Player_Y_pos <= pixel_row + Size) AND
+		(Player_Y_pos + Size >= '0' & pixel_row ) THEN
+			Player_on <= '1';
+		ELSE
+			Player_on <= '0';
+		END IF;
+		
+		IF s_active = '1' AND
+		('0' & Bullet_X_pos <= pixel_column + Bullet_Size) AND
+		(Bullet_X_pos + Bullet_Size >= '0' & pixel_column) AND
+		('0' & Bullet_Y_pos <= pixel_row + Bullet_Size) AND
+		(Bullet_Y_pos + Bullet_Size >= '0' & pixel_row ) THEN
+			Bullet_on <= '1';
+		ELSE
+			Bullet_on <= '0';
+		END IF;
 	END IF;
 END process RGB_Display_Ball;
 
 Move_Tank: process(vert_sync, game_mode)
 BEGIN
 	IF rising_edge(vert_sync) THEN
+	
+		IF game_mode = "000" THEN
+			s_score <= X"00";
+		END IF;
 		
-		IF game_mode = "001" THEN
+		IF game_mode = "000" OR game_mode = "011" OR game_mode = "101" OR game_mode = "111" THEN
 			IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
 				Ball_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
 			ELSIF Seed <= Size THEN
@@ -90,7 +103,6 @@ BEGIN
 			s_active <= '0';
 			Player_X_pos <= CONV_STD_LOGIC_VECTOR(320, 11);
 		ELSE
-		
 			-- टैंक 
 
 			IF ('0' & Ball_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
