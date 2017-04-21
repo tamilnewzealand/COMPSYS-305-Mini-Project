@@ -11,6 +11,7 @@ ENTITY tank IS
 		SIGNAL Seed						: IN std_logic_vector(10 DOWNTO 0);
 		SIGNAL left_button				: IN std_logic;
 		SIGNAL mouse_col				: IN std_logic_vector(9 DOWNTO 0);
+		SIGNAL sw9						: IN std_logic;
 		SIGNAL score					: OUT std_logic_vector(7 DOWNTO 0));		
 END tank;
 
@@ -78,79 +79,16 @@ BEGIN
 	END IF;
 END process RGB_Display_Ball;
 
-Move_Tank: process(vert_sync, game_mode)
+Move_Tank: process(vert_sync, game_mode, sw9)
 BEGIN
-	IF rising_edge(vert_sync) THEN
-	
-		IF game_mode = "000" THEN
-			s_score <= X"00";
-		END IF;
+	IF sw9 = '0' THEN
+		IF rising_edge(vert_sync) THEN
 		
-		IF game_mode = "000" OR game_mode = "011" OR game_mode = "101" OR game_mode = "111" THEN
-			IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
-				Ball_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
-			ELSIF Seed <= Size THEN
-				Ball_X_pos <= Size;
-			ELSE
-				Ball_X_pos <= Seed;
+			IF game_mode = "000" THEN
+				s_score <= X"00";
 			END IF;
 			
-			IF Seed(5) = '1' THEN
-				Ball_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
-			ELSE	
-				Ball_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
-			END IF;
-			s_active <= '0';
-			Player_X_pos <= CONV_STD_LOGIC_VECTOR(320, 11);
-		ELSE
-			-- टैंक 
-
-			IF ('0' & Ball_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
-				Ball_X_motion <= - CONV_STD_LOGIC_VECTOR(1,11);
-			ELSIF Ball_X_pos <= Size THEN
-				Ball_X_motion <= CONV_STD_LOGIC_VECTOR(1,11);
-			END IF;
-
-			Ball_X_pos <= Ball_X_pos + Ball_X_motion;
-			
-			-- प्लेयर 
-			
-			IF ('0' & mouse_col) >= "0111000000" THEN
-				Player_X_pos <= Player_X_pos + CONV_STD_LOGIC_VECTOR(2,11);
-			ELSIF mouse_col <= "0100000000" THEN
-				Player_X_pos <= Player_X_pos - CONV_STD_LOGIC_VECTOR(2,11);
-			ELSE
-				Player_X_pos <= Player_X_pos;
-			END IF;
-			
-			-- बुलेट
-			
-			IF Bullet_Y_pos <= Bullet_Size THEN
-				s_active <= '0';
-			END IF;
-			
-			IF left_button = '1' AND s_active = '0' THEN
-				s_active <= '1';
-				Bullet_Y_pos <= Player_Y_pos;
-				Bullet_X_pos <= Player_X_pos;
-				Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(3,11);
-			END IF;
-			
-			IF s_active = '1' THEN
-				Bullet_Y_pos <= Bullet_Y_pos + Bullet_Y_motion;
-			END IF;
-			
-			-- कोल्लिसिओं
-			
-			IF ('0' & Ball_X_pos <= Bullet_X_pos + Size) AND
-			(Ball_X_pos + Size >= '0' & Bullet_X_pos) AND
-			('0' & Ball_Y_pos <= Bullet_Y_pos + Size) AND
-			(Ball_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
-				s_active <= '0';
-				s_score <= s_score + '1';
-				Bullet_Y_pos <= Player_Y_pos;
-				Bullet_X_pos <= Player_X_pos;
-				
+			IF game_mode = "000" OR game_mode = "011" OR game_mode = "101" OR game_mode = "111" THEN
 				IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
 					Ball_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
 				ELSIF Seed <= Size THEN
@@ -163,6 +101,71 @@ BEGIN
 					Ball_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
 				ELSE	
 					Ball_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+				END IF;
+				s_active <= '0';
+				Player_X_pos <= CONV_STD_LOGIC_VECTOR(320, 11);
+			ELSE
+				-- टैंक 
+
+				IF ('0' & Ball_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
+					Ball_X_motion <= - CONV_STD_LOGIC_VECTOR(1,11);
+				ELSIF Ball_X_pos <= Size THEN
+					Ball_X_motion <= CONV_STD_LOGIC_VECTOR(1,11);
+				END IF;
+
+				Ball_X_pos <= Ball_X_pos + Ball_X_motion;
+				
+				-- प्लेयर 
+				
+				IF ('0' & mouse_col) >= "0111000000" THEN
+					Player_X_pos <= Player_X_pos + CONV_STD_LOGIC_VECTOR(2,11);
+				ELSIF mouse_col <= "0100000000" THEN
+					Player_X_pos <= Player_X_pos - CONV_STD_LOGIC_VECTOR(2,11);
+				ELSE
+					Player_X_pos <= Player_X_pos;
+				END IF;
+				
+				-- बुलेट
+				
+				IF Bullet_Y_pos <= Bullet_Size THEN
+					s_active <= '0';
+				END IF;
+				
+				IF left_button = '1' AND s_active = '0' THEN
+					s_active <= '1';
+					Bullet_Y_pos <= Player_Y_pos;
+					Bullet_X_pos <= Player_X_pos;
+					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(3,11);
+				END IF;
+				
+				IF s_active = '1' THEN
+					Bullet_Y_pos <= Bullet_Y_pos + Bullet_Y_motion;
+				END IF;
+				
+				-- कोल्लिसिओं
+				
+				IF ('0' & Ball_X_pos <= Bullet_X_pos + Size) AND
+				(Ball_X_pos + Size >= '0' & Bullet_X_pos) AND
+				('0' & Ball_Y_pos <= Bullet_Y_pos + Size) AND
+				(Ball_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
+					s_active <= '0';
+					s_score <= s_score + '1';
+					Bullet_Y_pos <= Player_Y_pos;
+					Bullet_X_pos <= Player_X_pos;
+					
+					IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
+						Ball_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
+					ELSIF Seed <= Size THEN
+						Ball_X_pos <= Size;
+					ELSE
+						Ball_X_pos <= Seed;
+					END IF;
+					
+					IF Seed(5) = '1' THEN
+						Ball_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+					ELSE	
+						Ball_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+					END IF;
 				END IF;
 			END IF;
 		END IF;

@@ -6,6 +6,7 @@ use IEEE.std_logic_unsigned.all;
 entity BigCounter is
    port(game_mode 	  : in std_logic_vector(2 downto 0);
 		clock, Clk	  : in std_logic;
+		sw9			  : in std_logic;
         Low_Q, High_Q : out std_logic_vector(0 to 3);
 		game_end	  : out std_logic);
 end BigCounter;
@@ -76,6 +77,10 @@ begin
 			game_end <= '0';
 		else
 			game_end <= '1';
+		end if;
+		
+		if sw9 = '1' then
+			Enable <= '0';
 		end if;
 	end if;
 end process;
