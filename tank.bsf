@@ -100,6 +100,13 @@ applicable agreement for further details.
 		(text "score[7..0]" (rect 153 43 195 55)(font "Arial" ))
 		(line (pt 216 48)(pt 200 48)(line_width 3))
 	)
+	(port
+		(pt 216 64)
+		(output)
+		(text "game_out" (rect 0 0 40 12)(font "Arial" ))
+		(text "game_out" (rect 155 59 195 71)(font "Arial" ))
+		(line (pt 216 64)(pt 200 64)(line_width 1))
+	)
 	(drawing
 		(rectangle (rect 16 16 200 192)(line_width 1))
 	)
