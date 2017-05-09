@@ -31,11 +31,12 @@ SIGNAL Tank_Y_pos, Tank_X_pos				: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOG
 SIGNAL Bonus_X_motion						: std_logic_vector(10 DOWNTO 0);
 SIGNAL Bonus_Y_pos, Bonus_X_pos				: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(50,11);
 SIGNAL Player_Y_pos, Player_X_pos			: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(320, 11);
+SIGNAL Player_X_motion						: std_logic_vector(10 DOWNTO 0);
 
 BEGIN
 
 Size <= CONV_STD_LOGIC_VECTOR(8,11);
-Bullet_Size <= CONV_STD_LOGIC_VECTOR(4,11);
+Bullet_Size <= CONV_STD_LOGIC_VECTOR(2,11);
 Player_Y_pos <= CONV_STD_LOGIC_VECTOR(430, 11);
 
 -- இதை என்னும் பண்ணனும், இப்படியா விடமுடியாது 
@@ -186,13 +187,15 @@ BEGIN
 				
 				-- प्लेयर 
 				
-				IF ('0' & mouse_col) >= "0111000000" THEN
-					Player_X_pos <= Player_X_pos + CONV_STD_LOGIC_VECTOR(2,11);
-				ELSIF mouse_col <= "0100000000" THEN
-					Player_X_pos <= Player_X_pos - CONV_STD_LOGIC_VECTOR(2,11);
+				IF ('0' & mouse_col) >= "0111000000" and ('0' & Player_X_pos) < (CONV_STD_LOGIC_VECTOR(640,11) - size) THEN
+					Player_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+				ELSIF mouse_col <= "0100000000" and ('0' & Player_X_pos) > Size THEN
+					Player_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
 				ELSE
-					Player_X_pos <= Player_X_pos;
+					Player_X_motion <= CONV_STD_LOGIC_VECTOR(0,11);
 				END IF;
+				
+				Player_X_pos <= Player_X_pos + Player_X_motion;
 				
 				-- बुलेट
 				
@@ -208,7 +211,7 @@ BEGIN
 					s_active <= '1';
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
-					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(3,11);
+					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(5,11);
 				END IF;
 				
 				IF s_active = '1' THEN
