@@ -3,11 +3,12 @@ USE IEEE.STD_LOGIC_1164.all;
 USE IEEE.STD_LOGIC_ARITH.all;
 USE IEEE.STD_LOGIC_SIGNED.all;
 
+--Tank entity to control movement, shooting and score of tanks
 ENTITY tank IS
-   PORT(SIGNAL RGB 						: OUT std_logic_vector(11 DOWNTO 0);
+   PORT(SIGNAL RGB 						: OUT std_logic_vector(11 DOWNTO 0); 
 		SIGNAL pixel_row, pixel_column  : IN std_logic_vector(10 DOWNTO 0);
 		SIGNAL game_mode				: IN std_logic_vector(2 DOWNTO 0);
-        SIGNAL Horiz_sync, Vert_sync	: IN std_logic;
+      SIGNAL Horiz_sync, Vert_sync	: IN std_logic;
 		SIGNAL Seed						: IN std_logic_vector(10 DOWNTO 0);
 		SIGNAL left_button				: IN std_logic;
 		SIGNAL mouse_col				: IN std_logic_vector(9 DOWNTO 0);
