@@ -290,7 +290,7 @@ BEGIN
 					ELSIF Seed <= Size THEN		
 						Bonus_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
 					ELSE
-						Bonus_X_pos <= Seed(0) & Seed(1) & Seed(2) & Seed(4) & Seed(5) & Seed(6) & Seed(8) & Seed(9) & Seed(10) & NOT Seed(3) & NOT Seed(7);
+						Bonus_X_pos <= seed;
 					END IF;
 					
 					Bonus_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
