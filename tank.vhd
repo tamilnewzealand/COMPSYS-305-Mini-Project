@@ -114,7 +114,18 @@ END process RGB_Display;
 
 Move_Tank: process(vert_sync, game_mode, sw9)
 	VARIABLE temp : std_logic_vector(3 DOWNTO 0) := X"0";
+	VARIABLE AI_speed : integer range 2 to 4 := 2;
 BEGIN
+	IF game_mode = "001" or game_mode = "010" THEN
+		AI_speed := 2;
+	ElSIF game_mode = "001" or game_mode = "100" THEN
+		AI_speed := 3;
+	ELSIF game_mode = "101" or game_mode = "110" THEN
+		AI_speed := 4;
+	ELSE
+		AI_speed := 2;
+	END IF;
+	
 	IF sw9 = '0' THEN
 		IF rising_edge(vert_sync) THEN
 			
@@ -140,11 +151,11 @@ BEGIN
 				Bonus_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
 				
 				IF Seed(5) = '1' THEN
-					Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
-					Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+					Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
+					Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
 				ELSE	
-					Tank_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
-					Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+					Tank_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
+					Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
 				END IF;
 				s_active <= '0';
 				s_active2 <= '0';
@@ -153,9 +164,9 @@ BEGIN
 				--Tank 1
 
 				IF ('0' & Tank_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
-					Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+					Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
 				ELSIF Tank_X_pos <= Size THEN
-					Tank_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+					Tank_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
 				END IF;
 
 				Tank_X_pos <= Tank_X_pos + Tank_X_motion;
@@ -164,9 +175,9 @@ BEGIN
 				
 				IF game_mode = "100" OR game_mode = "110" THEN
 					IF ('0' & Bonus_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
-						Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+						Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					ELSIF Bonus_X_pos <= Size THEN
-						Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+						Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					END IF;
 
 					Bonus_X_pos <= Bonus_X_pos + Bonus_X_motion;
@@ -190,9 +201,9 @@ BEGIN
 				--The player
 				
 				IF ('0' & mouse_col) >= "0111000000" and ('0' & Player_X_pos) < (CONV_STD_LOGIC_VECTOR(640,11) - size) THEN
-					Player_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+					Player_X_motion <= CONV_STD_LOGIC_VECTOR(3,11);
 				ELSIF mouse_col <= "0100000000" and ('0' & Player_X_pos) > Size THEN
-					Player_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+					Player_X_motion <= - CONV_STD_LOGIC_VECTOR(3,11);
 				ELSE
 					Player_X_motion <= CONV_STD_LOGIC_VECTOR(0,11);
 				END IF;
@@ -213,7 +224,7 @@ BEGIN
 					s_active <= '1';
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
-					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(5,11);
+					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(6,11);
 				END IF;
 				
 				IF s_active = '1' THEN
@@ -261,9 +272,9 @@ BEGIN
 					END IF;
 					
 					IF Seed(5) = '1' THEN
-						Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+						Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					ELSE
-						Tank_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+						Tank_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					END IF;
 				END IF;
 				
@@ -296,9 +307,9 @@ BEGIN
 					Bonus_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
 					
 					IF Seed(5) = '1' THEN
-						Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+						Bonus_X_motion <= CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					ELSE
-						Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
+						Bonus_X_motion <= - CONV_STD_LOGIC_VECTOR(AI_speed,11);
 					END IF;
 				END IF;
 				
