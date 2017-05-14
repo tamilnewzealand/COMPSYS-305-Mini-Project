@@ -836,7 +836,7 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 800 208 944 288)
+	(rect 776 208 920 288)
 	(text "myClockDivider" (rect 5 0 85 12)(font "Arial" ))
 	(text "inst16" (rect 8 64 37 76)(font "Arial" ))
 	(port
@@ -883,7 +883,7 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 984 160 1208 272)
+	(rect 968 168 1192 280)
 	(text "BigCounter" (rect 5 0 59 12)(font "Arial" ))
 	(text "inst8" (rect 8 96 31 108)(font "Arial" ))
 	(port
@@ -1070,18 +1070,32 @@ applicable agreement for further details.
 	(port
 		(pt 240 80)
 		(output)
+		(text "bullets_low[3..0]" (rect 0 0 79 12)(font "Arial" ))
+		(text "bullets_low[3..0]" (rect 153 75 219 87)(font "Arial" ))
+		(line (pt 240 80)(pt 224 80)(line_width 3))
+	)
+	(port
+		(pt 240 96)
+		(output)
+		(text "bullets_high[3..0]" (rect 0 0 83 12)(font "Arial" ))
+		(text "bullets_high[3..0]" (rect 149 91 219 103)(font "Arial" ))
+		(line (pt 240 96)(pt 224 96)(line_width 3))
+	)
+	(port
+		(pt 240 112)
+		(output)
 		(text "game_out" (rect 0 0 48 12)(font "Arial" ))
-		(text "game_out" (rect 179 75 219 87)(font "Arial" ))
-		(line (pt 240 80)(pt 224 80))
+		(text "game_out" (rect 179 107 219 119)(font "Arial" ))
+		(line (pt 240 112)(pt 224 112))
 	)
 	(drawing
 		(rectangle (rect 16 16 224 192))
 	)
 )
 (symbol
-	(rect 1320 64 1552 240)
+	(rect 1320 64 1552 272)
 	(text "game_text" (rect 5 0 56 12)(font "Arial" ))
-	(text "inst7" (rect 8 160 31 172)(font "Arial" ))
+	(text "inst7" (rect 8 192 31 204)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -1139,6 +1153,20 @@ applicable agreement for further details.
 		(line (pt 0 144)(pt 16 144)(line_width 3))
 	)
 	(port
+		(pt 0 160)
+		(input)
+		(text "bullets_low[3..0]" (rect 0 0 79 12)(font "Arial" ))
+		(text "bullets_low[3..0]" (rect 21 155 100 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "bullets_high[3..0]" (rect 0 0 83 12)(font "Arial" ))
+		(text "bullets_high[3..0]" (rect 21 171 104 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
 		(pt 232 32)
 		(output)
 		(text "char_add[5..0]" (rect 0 0 70 12)(font "Arial" ))
@@ -1160,7 +1188,7 @@ applicable agreement for further details.
 		(line (pt 232 64)(pt 216 64)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 216 160))
+		(rectangle (rect 16 16 216 192))
 	)
 )
 (connector
@@ -1371,41 +1399,6 @@ applicable agreement for further details.
 	(pt 1664 160)
 )
 (connector
-	(pt 984 192)
-	(pt 952 192)
-	(bus)
-)
-(connector
-	(pt 944 240)
-	(pt 960 240)
-)
-(connector
-	(text "clock_50Mhz" (rect 742 224 804 236)(font "Arial" ))
-	(pt 800 240)
-	(pt 720 240)
-)
-(connector
-	(pt 960 224)
-	(pt 960 240)
-)
-(connector
-	(pt 960 224)
-	(pt 984 224)
-)
-(connector
-	(pt 720 240)
-	(pt 720 208)
-)
-(connector
-	(pt 720 208)
-	(pt 984 208)
-)
-(connector
-	(text "game_end" (rect 1224 208 1274 220)(font "Arial" ))
-	(pt 1208 224)
-	(pt 1288 224)
-)
-(connector
 	(pt 80 72)
 	(pt 48 72)
 )
@@ -1448,19 +1441,6 @@ applicable agreement for further details.
 	(pt 8 648)
 	(pt 224 648)
 	(bus)
-)
-(connector
-	(pt 984 240)
-	(pt 968 240)
-)
-(connector
-	(pt 968 240)
-	(pt 968 256)
-)
-(connector
-	(text "sw9" (rect 962 240 980 252)(font "Arial" ))
-	(pt 968 256)
-	(pt 952 256)
 )
 (connector
 	(text "game_out" (rect 0 -16 48 -4)(font "Arial" ))
@@ -1522,11 +1502,6 @@ applicable agreement for further details.
 	(text "sw9" (rect 204 680 222 692)(font "Arial" ))
 	(pt 192 696)
 	(pt 224 696)
-)
-(connector
-	(text "game_out" (rect 499 600 547 612)(font "Arial" ))
-	(pt 464 616)
-	(pt 496 616)
 )
 (connector
 	(text "score_low[3..0]" (rect 476 568 550 580)(font "Arial" ))
@@ -1613,21 +1588,6 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 1208 208)
-	(pt 1320 208)
-	(bus)
-)
-(connector
-	(pt 1208 192)
-	(pt 1320 192)
-	(bus)
-)
-(connector
-	(pt 952 192)
-	(pt 952 136)
-	(bus)
-)
-(connector
 	(pt 1312 144)
 	(pt 1312 136)
 	(bus)
@@ -1656,13 +1616,121 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
+	(text "game_out" (rect 499 632 547 644)(font "Arial" ))
+	(pt 464 648)
+	(pt 496 648)
+)
+(connector
+	(text "bullets_low[3..0]" (rect 464 600 543 612)(font "Arial" ))
+	(pt 464 616)
+	(pt 504 616)
+	(bus)
+)
+(connector
+	(text "bullets_high[3..0]" (rect 464 616 547 628)(font "Arial" ))
+	(pt 464 632)
+	(pt 504 632)
+	(bus)
+)
+(connector
+	(text "clock_50Mhz" (rect 718 224 780 236)(font "Arial" ))
+	(pt 720 240)
+	(pt 776 240)
+)
+(connector
+	(pt 920 240)
+	(pt 960 240)
+)
+(connector
+	(pt 952 200)
+	(pt 968 200)
+	(bus)
+)
+(connector
+	(pt 960 232)
+	(pt 968 232)
+)
+(connector
+	(pt 720 216)
+	(pt 968 216)
+)
+(connector
+	(pt 1200 192)
+	(pt 1200 200)
+	(bus)
+)
+(connector
+	(pt 1200 200)
+	(pt 1192 200)
+	(bus)
+)
+(connector
+	(pt 952 136)
+	(pt 952 200)
+	(bus)
+)
+(connector
+	(text "game_end" (rect 1192 216 1242 228)(font "Arial" ))
+	(pt 1224 232)
+	(pt 1192 232)
+)
+(connector
+	(pt 1208 208)
+	(pt 1208 216)
+	(bus)
+)
+(connector
+	(pt 1320 208)
+	(pt 1208 208)
+	(bus)
+)
+(connector
+	(pt 1208 216)
+	(pt 1192 216)
+	(bus)
+)
+(connector
+	(pt 960 240)
+	(pt 960 232)
+)
+(connector
+	(pt 720 240)
+	(pt 720 216)
+)
+(connector
+	(pt 1200 192)
+	(pt 1320 192)
+	(bus)
+)
+(connector
+	(text "sw9" (rect 938 240 956 252)(font "Arial" ))
+	(pt 968 256)
+	(pt 928 256)
+)
+(connector
+	(pt 968 248)
+	(pt 968 256)
+)
+(connector
+	(text "bullets_high[3..0]" (rect 1248 224 1331 236)(font "Arial" ))
+	(pt 1320 240)
+	(pt 1248 240)
+	(bus)
+)
+(connector
+	(text "bullets_low[3..0]" (rect 1248 208 1327 220)(font "Arial" ))
+	(pt 1320 224)
+	(pt 1248 224)
+	(bus)
+)
+(connector
 	(text "score_high[3..0]" (rect 661 544 740 556)(font "Arial" ))
 	(pt 728 560)
 	(pt 648 560)
 	(bus)
 )
 (connector
-	(text "score_low[3..0]" (rect 682 672 756 684)(font "Arial" ))
+	(text "score_low[3..0]" (rect 642 664 716 676)(font "Arial" ))
 	(pt 728 688)
 	(pt 640 688)
 	(bus)

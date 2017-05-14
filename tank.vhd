@@ -15,7 +15,10 @@ ENTITY tank IS
 		SIGNAL sw9						: IN std_logic;
 		SIGNAL score_low					: OUT std_logic_vector(3 DOWNTO 0);
 		SIGNAL score_high					: OUT std_logic_vector(3 DOWNTO 0);
-		SIGNAL game_out					: OUT std_logic := '1');		
+		SIGNAL bullets_low				: OUT std_logic_vector(3 DOWNTO 0);
+		SIGNAL bullets_high				: OUT std_logic_vector(3 DOWNTO 0);
+		SIGNAL game_out					: OUT std_logic := '1');
+
 END tank;
 
 architecture behavior of tank is 
@@ -34,6 +37,9 @@ SIGNAL Bonus_X_motion						: std_logic_vector(10 DOWNTO 0);
 SIGNAL Bonus_Y_pos, Bonus_X_pos				: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(50,11);
 SIGNAL Player_Y_pos, Player_X_pos			: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(320, 11);
 SIGNAL Player_X_motion						: std_logic_vector(10 DOWNTO 0);
+SIGNAL s_bullets_low							: std_logic_vector(3 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(5,4);
+SIGNAL s_bullets_high						: std_logic_vector(3 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(1,4);
+SIGNAL old_mode								: std_logic_vector(2 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(0,3);
 
 BEGIN
 
@@ -115,10 +121,8 @@ END process RGB_Display;
 Move_Tank: process(vert_sync, game_mode, sw9)
 	VARIABLE temp : std_logic_vector(3 DOWNTO 0) := X"0";
 	VARIABLE AI_speed : integer range 2 to 4 := 2;
-BEGIN
-	IF game_mode = "001" or game_mode = "010" THEN
-		AI_speed := 2;
-	ElSIF game_mode = "001" or game_mode = "100" THEN
+BEGIN	
+	IF game_mode = "011" or game_mode = "100" THEN
 		AI_speed := 3;
 	ELSIF game_mode = "101" or game_mode = "110" THEN
 		AI_speed := 4;
@@ -128,7 +132,11 @@ BEGIN
 	
 	IF sw9 = '0' THEN
 		IF rising_edge(vert_sync) THEN
-			
+			IF old_mode /= game_mode THEN
+				old_mode <= game_mode;
+				s_bullets_high <= CONV_STD_LOGIC_VECTOR(1,4);
+				s_bullets_low <= CONV_STD_LOGIC_VECTOR(5,4);
+			END IF;
 			IF game_mode = "000" THEN
 				s_score_high <= "0000";
 				s_score_low <= "0000";
@@ -194,7 +202,7 @@ BEGIN
 						s_active2 <= '1';
 						Special_X_pos <= Tank_X_pos;
 						Special_Y_pos <= Tank_Y_pos;
-						Special_Y_motion <= CONV_STD_LOGIC_VECTOR(3,11);
+						Special_Y_motion <= CONV_STD_LOGIC_VECTOR(6,11);
 					END IF;
 				END IF;
 				
@@ -220,11 +228,19 @@ BEGIN
 					s_active2 <= '0';
 				END IF;
 				
-				IF left_button = '1' AND s_active = '0' THEN
+				IF left_button = '1' AND s_active = '0' AND ((s_bullets_low /= "0000") OR (s_bullets_high /= "0000")) THEN
 					s_active <= '1';
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
 					Bullet_Y_motion <= - CONV_STD_LOGIC_VECTOR(6,11);
+					IF game_mode = "110" THEN
+							IF s_bullets_low = "0000" AND s_bullets_high /= "0000" THEN
+								s_bullets_low <= "1001";
+								s_bullets_high <= s_bullets_high - '1';
+							ELSE
+								s_bullets_low <= s_bullets_low - '1';
+							END IF;
+					END IF;
 				END IF;
 				
 				IF s_active = '1' THEN
@@ -323,6 +339,8 @@ END process Move_Tank;
 
 score_low <= s_score_low;
 score_high <= s_score_high;
+bullets_low <= s_bullets_low;
+bullets_high <= s_bullets_high;
 
 END behavior;
 

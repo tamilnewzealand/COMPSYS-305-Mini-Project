@@ -20,9 +20,9 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 248 192)
+	(rect 16 16 248 224)
 	(text "game_text" (rect 5 0 47 12)(font "Arial" ))
-	(text "inst" (rect 8 160 20 172)(font "Arial" ))
+	(text "inst" (rect 8 192 20 204)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -80,6 +80,20 @@ applicable agreement for further details.
 		(line (pt 0 144)(pt 16 144)(line_width 3))
 	)
 	(port
+		(pt 0 160)
+		(input)
+		(text "bullets_low[3..0]" (rect 0 0 61 12)(font "Arial" ))
+		(text "bullets_low[3..0]" (rect 21 155 82 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "bullets_high[3..0]" (rect 0 0 64 12)(font "Arial" ))
+		(text "bullets_high[3..0]" (rect 21 171 85 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
 		(pt 232 32)
 		(output)
 		(text "char_add[5..0]" (rect 0 0 57 12)(font "Arial" ))
@@ -101,6 +115,6 @@ applicable agreement for further details.
 		(line (pt 232 64)(pt 216 64)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 216 160)(line_width 1))
+		(rectangle (rect 16 16 216 192)(line_width 1))
 	)
 )
