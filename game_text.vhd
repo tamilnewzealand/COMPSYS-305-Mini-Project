@@ -7,7 +7,7 @@ ENTITY game_text IS
    PORT(signal sw0							: in std_logic;
 		  signal pixel_column, pixel_row	: in std_logic_vector(10 downto 0);
 		  signal game_mode					: in std_logic_vector(2 downto 0);
-		  signal score						: in std_logic_vector(7 downto 0);
+		  signal score_ones, score_tens	: in std_logic_vector(3 downto 0);
 		  signal time_low, time_high		: in std_logic_vector(0 to 3);
 		  signal char_add					: out std_logic_vector(5 downto 0);
 		  signal char_row, char_col			: out std_logic_vector(2 downto 0));
@@ -18,13 +18,10 @@ architecture behavior of game_text is
 signal pixel_row_t, pixel_column_t			: std_logic_vector(10 downto 0);
 signal tens, ones 							: std_logic_vector(5 downto 0);
 signal time_tens, time_ones 				: std_logic_vector(5 downto 0);
-signal score_tens, score_ones 				: std_logic_vector(3 downto 0);
 signal level_num							: std_logic_vector(5 downto 0);
 
 begin           
 
-score_ones <= score(3 downto 0);
-score_tens <= score(7 downto 4);
 pixel_column_t <= pixel_column;
 pixel_row_t <= pixel_row;
 
