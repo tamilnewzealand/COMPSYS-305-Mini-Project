@@ -13,14 +13,15 @@ ENTITY tank IS
 		SIGNAL left_button				: IN std_logic;
 		SIGNAL mouse_col				: IN std_logic_vector(9 DOWNTO 0);
 		SIGNAL sw9						: IN std_logic;
-		SIGNAL score					: OUT std_logic_vector(7 DOWNTO 0);
+		SIGNAL score_low					: OUT std_logic_vector(3 DOWNTO 0);
+		SIGNAL score_high					: OUT std_logic_vector(3 DOWNTO 0);
 		SIGNAL game_out					: OUT std_logic := '1');		
 END tank;
 
 architecture behavior of tank is 
 SIGNAL Tank_on, Player_on, Bullet_on		: std_logic := '0';
 SIGNAL Bonus_on, Special_on					: std_logic := '0';
-SIGNAL s_score								: std_logic_vector(7 DOWNTO 0) := X"00";
+SIGNAL s_score_high, s_score_low				: std_logic_vector(3 DOWNTO 0) := "0000";
 SIGNAL s_active, s_active2					: std_logic := '0';
 SIGNAL Bullet_Y_motion						: std_logic_vector(10 DOWNTO 0);
 SIGNAL Bullet_Y_pos, Bullet_X_pos			: std_logic_vector(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(320, 11);
@@ -40,7 +41,6 @@ Size <= CONV_STD_LOGIC_VECTOR(8,11);
 Bullet_Size <= CONV_STD_LOGIC_VECTOR(2,11);
 Player_Y_pos <= CONV_STD_LOGIC_VECTOR(430, 11);
 
--- இதை என்னும் பண்ணனும், இப்படியா விடமுடியாது 
 RGB(0) <= '1' AND NOT Player_on AND NOT Bullet_on AND NOT Special_on;
 RGB(1) <= '1' AND NOT Player_on AND NOT Bullet_on AND NOT Special_on;
 RGB(2) <= '1' AND NOT Player_on AND NOT Bullet_on AND NOT Special_on;
@@ -119,7 +119,8 @@ BEGIN
 		IF rising_edge(vert_sync) THEN
 			
 			IF game_mode = "000" THEN
-				s_score <= X"00";
+				s_score_high <= "0000";
+				s_score_low <= "0000";
 				game_out <= '1';
 			END IF;
 			
@@ -149,7 +150,7 @@ BEGIN
 				s_active2 <= '0';
 				Player_X_pos <= CONV_STD_LOGIC_VECTOR(320, 11);
 			ELSE
-				-- टैंक  ௧
+				--Tank 1
 
 				IF ('0' & Tank_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
 					Tank_X_motion <= - CONV_STD_LOGIC_VECTOR(2,11);
@@ -159,7 +160,7 @@ BEGIN
 
 				Tank_X_pos <= Tank_X_pos + Tank_X_motion;
 				
-				-- टैंक ௨
+				--Tank 2
 				
 				IF game_mode = "100" OR game_mode = "110" THEN
 					IF ('0' & Bonus_X_pos) >= CONV_STD_LOGIC_VECTOR(640,11) - Size THEN
@@ -186,7 +187,7 @@ BEGIN
 					END IF;
 				END IF;
 				
-				-- प्लेयर 
+				--The player
 				
 				IF ('0' & mouse_col) >= "0111000000" and ('0' & Player_X_pos) < (CONV_STD_LOGIC_VECTOR(640,11) - size) THEN
 					Player_X_motion <= CONV_STD_LOGIC_VECTOR(2,11);
@@ -198,7 +199,7 @@ BEGIN
 				
 				Player_X_pos <= Player_X_pos + Player_X_motion;
 				
-				-- बुलेट
+				--Bullet
 				
 				IF Bullet_Y_pos <= Bullet_Size THEN
 					s_active <= '0';
@@ -223,7 +224,7 @@ BEGIN
 					Special_Y_pos <= Special_Y_pos + Special_Y_motion;
 				END IF;
 				
-				-- कोल्लिसिओं ई बुलेट
+				--Bullet collision
 				
 				IF ('0' & Player_X_pos <= Special_X_pos + Size) AND
 				(Player_X_pos + Size >= '0' & Special_X_pos) AND
@@ -233,14 +234,21 @@ BEGIN
 					game_out <= '0';
 				END IF;
 				
-				-- कोल्लिसिओं टैंक ௧
+				--Collision of tank 1
 				
 				IF ('0' & Tank_X_pos <= Bullet_X_pos + Size) AND
 				(Tank_X_pos + Size >= '0' & Bullet_X_pos) AND
 				('0' & Tank_Y_pos <= Bullet_Y_pos + Size) AND
 				(Tank_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
 					s_active <= '0';
-					s_score <= s_score + '1';
+
+					IF (s_score_low = "1001") THEN
+						s_score_low <= "0000";
+						s_score_high <= s_score_high + '1';
+					ELSE
+						s_score_low <= s_score_low + '1';
+					END IF;
+					
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
 					
@@ -259,14 +267,21 @@ BEGIN
 					END IF;
 				END IF;
 				
-				-- कोल्लिसिओं टैंक ௨
+				--Collision of tank 2
 				
 				IF ('0' & Bonus_X_pos <= Bullet_X_pos + Size) AND
 				(Bonus_X_pos + Size >= '0' & Bullet_X_pos) AND
 				('0' & Bonus_Y_pos <= Bullet_Y_pos + Size) AND
 				(Bonus_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
 					s_active <= '0';
-					s_score <= s_score + '1';
+					
+					IF (s_score_low = "1001") THEN
+						s_score_low <= "0000";
+						s_score_high <= s_score_high + '1';
+					ELSE
+						s_score_low <= s_score_low + '1';
+					END IF;
+					
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
 					
@@ -295,7 +310,8 @@ BEGIN
 	END IF;
 END process Move_Tank;
 
-score <= s_score;
+score_low <= s_score_low;
+score_high <= s_score_high;
 
 END behavior;
 
