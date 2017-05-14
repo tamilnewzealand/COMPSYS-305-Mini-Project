@@ -9,6 +9,7 @@ ENTITY game_text IS
 		  signal game_mode					: in std_logic_vector(2 downto 0);
 		  signal score_ones, score_tens	: in std_logic_vector(3 downto 0);
 		  signal time_low, time_high		: in std_logic_vector(0 to 3);
+		  signal bullets_low, bullets_high: in std_logic_vector(3 downto 0);
 		  signal char_add					: out std_logic_vector(5 downto 0);
 		  signal char_row, char_col			: out std_logic_vector(2 downto 0));
 end game_text;
@@ -18,6 +19,7 @@ architecture behavior of game_text is
 signal pixel_row_t, pixel_column_t			: std_logic_vector(10 downto 0);
 signal tens, ones 							: std_logic_vector(5 downto 0);
 signal time_tens, time_ones 				: std_logic_vector(5 downto 0);
+signal bullet_tens, bullet_ones		: std_logic_vector(5 downto 0);
 signal level_num							: std_logic_vector(5 downto 0);
 
 begin           
@@ -53,7 +55,7 @@ begin
 		when "1001" => tens <= CONV_STD_LOGIC_VECTOR(57, 6); -- 9
 		when OTHERS => tens <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
 	end case;
-		case time_low is
+	case time_low is
 		when "0000" => time_ones <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
 		when "0001" => time_ones <= CONV_STD_LOGIC_VECTOR(49, 6); -- 1
 		when "0010" => time_ones <= CONV_STD_LOGIC_VECTOR(50, 6); -- 2
@@ -78,6 +80,32 @@ begin
 		when "1000" => time_tens <= CONV_STD_LOGIC_VECTOR(56, 6); -- 8
 		when "1001" => time_tens <= CONV_STD_LOGIC_VECTOR(57, 6); -- 9
 		when OTHERS => time_tens <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
+	end case;
+	case bullets_low is
+		when "0000" => bullet_ones <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
+		when "0001" => bullet_ones <= CONV_STD_LOGIC_VECTOR(49, 6); -- 1
+		when "0010" => bullet_ones <= CONV_STD_LOGIC_VECTOR(50, 6); -- 2
+		when "0011" => bullet_ones <= CONV_STD_LOGIC_VECTOR(51, 6); -- 3
+		when "0100" => bullet_ones <= CONV_STD_LOGIC_VECTOR(52, 6); -- 4
+		when "0101" => bullet_ones <= CONV_STD_LOGIC_VECTOR(53, 6); -- 5
+		when "0110" => bullet_ones <= CONV_STD_LOGIC_VECTOR(54, 6); -- 6
+		when "0111" => bullet_ones <= CONV_STD_LOGIC_VECTOR(55, 6); -- 7
+		when "1000" => bullet_ones <= CONV_STD_LOGIC_VECTOR(56, 6); -- 8
+		when "1001" => bullet_ones <= CONV_STD_LOGIC_VECTOR(57, 6); -- 9
+		when OTHERS => bullet_ones <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
+	end case;
+	case bullets_high is
+		when "0000" => bullet_tens <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
+		when "0001" => bullet_tens <= CONV_STD_LOGIC_VECTOR(49, 6); -- 1
+		when "0010" => bullet_tens <= CONV_STD_LOGIC_VECTOR(50, 6); -- 2
+		when "0011" => bullet_tens <= CONV_STD_LOGIC_VECTOR(51, 6); -- 3
+		when "0100" => bullet_tens <= CONV_STD_LOGIC_VECTOR(52, 6); -- 4
+		when "0101" => bullet_tens <= CONV_STD_LOGIC_VECTOR(53, 6); -- 5
+		when "0110" => bullet_tens <= CONV_STD_LOGIC_VECTOR(54, 6); -- 6
+		when "0111" => bullet_tens <= CONV_STD_LOGIC_VECTOR(55, 6); -- 7
+		when "1000" => bullet_tens <= CONV_STD_LOGIC_VECTOR(56, 6); -- 8
+		when "1001" => bullet_tens <= CONV_STD_LOGIC_VECTOR(57, 6); -- 9
+		when OTHERS => bullet_tens <= CONV_STD_LOGIC_VECTOR(48, 6); -- 0
 	end case;
 	case game_mode is
 		when "010" => level_num <= CONV_STD_LOGIC_VECTOR(49, 6); -- level 1
@@ -712,10 +740,105 @@ begin
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= time_ones;
 		--No Text
-		else
+		elsif game_mode /= "110" then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
+		else
+		--
+			if (pixel_column_t >= CONV_STD_LOGIC_VECTOR(460, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(476, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
+		--BULLETS
+		--B
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(476, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(492, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(2, 6);
+		--U
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(492, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(508, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(21, 6);
+		--L
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(508, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(524, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(12, 6);
+		--L
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(524, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(540, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(12, 6);
+		--E
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(540, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(556, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(5, 6);
+		--T
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(556, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(572, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(20, 6);
+		--S
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(572, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(588, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(19, 6);
+		--
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(588, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(604, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
+		--Bullet_tens
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(604, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(620, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= bullet_tens;
+		--Bullet_ones
+			elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(620, 10)) and
+				(pixel_column_t <= CONV_STD_LOGIC_VECTOR(636, 10)) and
+				(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
+				(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= bullet_ones;
+			else
+				char_row <= pixel_row_t(3 downto 1);
+				char_col <= pixel_column_t(3 downto 1);
+				char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
+			end if;
 		end if;
 	elsif game_mode = "001" then
 		-- Display: PRACTICE
