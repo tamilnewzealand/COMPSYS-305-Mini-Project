@@ -97,10 +97,12 @@ BEGIN
 		END IF;
 		
 		IF s_active = '1' AND
-		('0' & Bullet_X_pos <= pixel_column + Bullet_Size) AND
-		(Bullet_X_pos + Bullet_Size >= '0' & pixel_column) AND
-		('0' & Bullet_Y_pos <= pixel_row + Bullet_Size) AND
-		(Bullet_Y_pos + Bullet_Size >= '0' & pixel_row ) THEN
+		(((('0' & Bullet_X_pos = pixel_column - bullet_Size) or ('0' & Bullet_X_pos = pixel_column + bullet_Size)) AND
+		('0' & bullet_Y_pos = pixel_row))OR
+		((('0' & Bullet_X_pos = pixel_column - 1) or ('0' & Bullet_X_pos = pixel_column + 1)) AND
+		(((Bullet_Y_pos + 1 >= '0' & pixel_row) and ('0' & Bullet_Y_pos <= pixel_row + 1))))OR
+		((('0' & Bullet_x_pos = pixel_column))and
+		(((bullet_y_pos + bullet_Size >= '0' & pixel_row) and ('0' & Bullet_Y_pos <= pixel_row + bullet_Size))))) THEN
 			Bullet_on <= '1';
 		ELSE
 			Bullet_on <= '0';
