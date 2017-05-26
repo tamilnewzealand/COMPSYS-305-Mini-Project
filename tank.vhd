@@ -360,6 +360,14 @@ BEGIN
 				IF Bonus_Y_pos = (CONV_STD_LOGIC_VECTOR(480,11) - Size) THEN
 					game_out <= '0';
 				END IF;
+				
+				IF ('0' & Bonus_X_pos <= player_X_pos + Size) AND
+				(Bonus_X_pos + Size >= '0' & player_x_pos) AND
+				('0' & Bonus_Y_pos <= player_y_pos + Size + Size) AND
+				(Bonus_Y_pos + Size + Size >= '0' & player_y_pos ) THEN
+					game_out <= '0';
+				END IF;
+				
 				IF s_active = '0' AND((s_bullets_low = "0000") AND (s_bullets_high = "0000")) THEN
 					game_out <= '0';
 				END IF;
