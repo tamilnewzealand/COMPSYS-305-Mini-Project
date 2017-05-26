@@ -44,7 +44,7 @@ SIGNAL old_mode								: std_logic_vector(2 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(0
 BEGIN
 
 Size <= CONV_STD_LOGIC_VECTOR(8,11);
-Bullet_Size <= CONV_STD_LOGIC_VECTOR(2,11);
+Bullet_Size <= CONV_STD_LOGIC_VECTOR(3,11);
 Player_Y_pos <= CONV_STD_LOGIC_VECTOR(430, 11);
 
 RGB(0) <= '1' AND NOT Player_on AND NOT Bullet_on AND NOT Special_on;
@@ -97,11 +97,11 @@ BEGIN
 		END IF;
 		
 		IF s_active = '1' AND
-		(((('0' & Bullet_X_pos = pixel_column - bullet_Size) or ('0' & Bullet_X_pos = pixel_column + bullet_Size)) AND
-		('0' & bullet_Y_pos = pixel_row))OR
-		((('0' & Bullet_X_pos = pixel_column - 1) or ('0' & Bullet_X_pos = pixel_column + 1)) AND
-		(((Bullet_Y_pos + 1 >= '0' & pixel_row) and ('0' & Bullet_Y_pos <= pixel_row + 1))))OR
-		((('0' & Bullet_x_pos = pixel_column))and
+		(((('0' & Bullet_X_pos = pixel_column - bullet_Size) or ('0' & Bullet_X_pos = pixel_column + bullet_Size)) and
+		(('0' & bullet_Y_pos <= pixel_row + 1) and (bullet_Y_pos + 1 >= '0' & pixel_row)))OR
+		((('0' & Bullet_X_pos = pixel_column - 2) or ('0' & Bullet_X_pos = pixel_column + 2)) and
+		(((Bullet_Y_pos + 2 >= '0' & pixel_row) and ('0' & Bullet_Y_pos <= pixel_row + 2))))OR
+		((('0' & Bullet_x_pos <= pixel_column + 1) and (Bullet_X_pos + 1 >= '0' & pixel_column ))and
 		(((bullet_y_pos + bullet_Size >= '0' & pixel_row) and ('0' & Bullet_Y_pos <= pixel_row + bullet_Size))))) THEN
 			Bullet_on <= '1';
 		ELSE
@@ -109,10 +109,12 @@ BEGIN
 		END IF;
 		
 		IF s_active2 = '1' AND
-		('0' & Special_X_pos <= pixel_column + Bullet_Size) AND
-		(Special_X_pos + Bullet_Size >= '0' & pixel_column) AND
-		('0' & Special_Y_pos <= pixel_row + Bullet_Size) AND
-		(Special_Y_pos + Bullet_Size >= '0' & pixel_row ) THEN
+		(((('0' & special_x_pos = pixel_column - bullet_Size) or ('0' & special_x_pos = pixel_column + bullet_Size)) and
+		(('0' & special_y_pos <= pixel_row + 1) and (special_y_pos + 1 >= '0' & pixel_row)))OR
+		((('0' & special_x_pos = pixel_column - 2) or ('0' & special_x_pos = pixel_column + 2)) and
+		(((special_y_pos + 2 >= '0' & pixel_row) and ('0' & special_y_pos <= pixel_row + 2))))OR
+		((('0' & special_x_pos <= pixel_column + 1) and (special_x_pos + 1 >= '0' & pixel_column ))and
+		(((special_y_pos + bullet_Size >= '0' & pixel_row) and ('0' & special_y_pos <= pixel_row + bullet_Size))))) THEN
 			Special_on <= '1';
 		ELSE
 			Special_on <= '0';
