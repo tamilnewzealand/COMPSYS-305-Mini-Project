@@ -149,15 +149,15 @@ BEGIN
 			
 			IF game_mode = "000" OR game_mode = "011" OR game_mode = "101" OR game_mode = "111" THEN
 				game_out <= '1';
-				IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
-					Tank_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
+				IF Seed >= (CONV_STD_LOGIC_VECTOR(589,11) - Size) THEN
+					Tank_X_pos <= CONV_STD_LOGIC_VECTOR(589,11) - Size;
 					Bonus_X_pos <= Size;
-				ELSIF Seed <= Size THEN
-					Tank_X_pos <= Size;
-					Bonus_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
+				ELSIF Seed <= CONV_STD_LOGIC_VECTOR(50,11) THEN
+					Tank_X_pos <= CONV_STD_LOGIC_VECTOR(50,11);
+					Bonus_X_pos <= CONV_STD_LOGIC_VECTOR(589,11) - Size;
 				ELSE
-					Tank_X_pos <= Seed;
-					Bonus_X_pos <= (CONV_STD_LOGIC_VECTOR(640,11) - Seed);
+					Tank_X_pos <= CONV_STD_LOGIC_VECTOR(50,11) + seed;
+					Bonus_X_pos <= (CONV_STD_LOGIC_VECTOR(589,11) - Seed);
 				END IF;
 				
 				Bonus_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
@@ -272,7 +272,19 @@ BEGIN
 				('0' & Tank_Y_pos <= Bullet_Y_pos + Size) AND
 				(Tank_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
 					s_active <= '0';
-
+					
+					IF game_mode = "110" THEN
+						IF s_bullets_low = "1000" THEN
+							s_bullets_low <= "0000";
+							s_bullets_high <= s_bullets_high + 1;
+						ELSIF s_bullets_low = "1001" THEN
+							s_bullets_low <= "0001";
+							s_bullets_high <= s_bullets_high + 1;
+						ELSE
+							s_bullets_low <= s_bullets_low + 2;
+						END IF;
+					END IF;
+					
 					IF (s_score_low = "1001") THEN
 						s_score_low <= "0000";
 						s_score_high <= s_score_high + '1';
@@ -283,9 +295,9 @@ BEGIN
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
 					
-					IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
-						Tank_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
-					ELSIF Seed <= Size THEN
+					IF Seed >= (CONV_STD_LOGIC_VECTOR(589,11) - size) THEN
+						Tank_X_pos <= CONV_STD_LOGIC_VECTOR(589,11) - Size;
+					ELSIF Seed <= CONV_STD_LOGIC_VECTOR(50,11) THEN
 						Tank_X_pos <= Size;
 					ELSE
 						Tank_X_pos <= Seed;
@@ -306,6 +318,18 @@ BEGIN
 				(Bonus_Y_pos + Size >= '0' & Bullet_Y_pos ) THEN
 					s_active <= '0';
 					
+					IF game_mode = "110" THEN
+						IF s_bullets_low = "1000" THEN
+							s_bullets_low <= "0000";
+							s_bullets_high <= s_bullets_high + 1;
+						ELSIF s_bullets_low = "1001" THEN
+							s_bullets_low <= "0001";
+							s_bullets_high <= s_bullets_high + 1;
+						ELSE
+							s_bullets_low <= s_bullets_low + 2;
+						END IF;
+					END IF;
+					
 					IF (s_score_low = "1001") THEN
 						s_score_low <= "0000";
 						s_score_high <= s_score_high + '1';
@@ -316,10 +340,10 @@ BEGIN
 					Bullet_Y_pos <= Player_Y_pos;
 					Bullet_X_pos <= Player_X_pos;
 					
-					IF Seed >= (CONV_STD_LOGIC_VECTOR(640,11) - Size) THEN
+					IF Seed >= (CONV_STD_LOGIC_VECTOR(589,11) - Size) THEN
 						Bonus_X_pos <= Size;
-					ELSIF Seed <= Size THEN		
-						Bonus_X_pos <= CONV_STD_LOGIC_VECTOR(640,11) - Size;
+					ELSIF Seed <= CONV_STD_LOGIC_VECTOR(50,11) THEN		
+						Bonus_X_pos <= CONV_STD_LOGIC_VECTOR(50,11);
 					ELSE
 						Bonus_X_pos <= seed;
 					END IF;
@@ -336,6 +360,10 @@ BEGIN
 				IF Bonus_Y_pos = (CONV_STD_LOGIC_VECTOR(480,11) - Size) THEN
 					game_out <= '0';
 				END IF;
+				IF s_active = '0' AND((s_bullets_low = "0000") AND (s_bullets_high = "0000")) THEN
+					game_out <= '0';
+				END IF;
+				
 			END IF;
 		END IF;
 	END IF;
