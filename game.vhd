@@ -12,9 +12,9 @@ END game;
 
 architecture behavior of game is
 
-SIGNAL Red_Data_t  		 : std_logic_vector(3 downto 0) := "0000";
-SIGNAL Green_Data_t		 : std_logic_vector(3 downto 0) := "0000";
-SIGNAL Blue_Data_t 		 : std_logic_vector(3 downto 0) := "0000";
+SIGNAL Red_Data_t  		 : std_logic_vector(3 downto 0) := "1111";
+SIGNAL Green_Data_t		 : std_logic_vector(3 downto 0) := "1111";
+SIGNAL Blue_Data_t 		 : std_logic_vector(3 downto 0) := "1111";
 SIGNAL s_game_mode		 : std_logic_vector(2 downto 0) := "000";
 
 
@@ -57,11 +57,19 @@ BEGIN
 	Green_Data_t <= RGB(7 DOWNTO 4);
 	Blue_Data_t <= RGB(11 DOWNTO 8);
 	
-	IF rom_mux = '1' THEN
+	IF s_game_mode = "000" THEN
 		Red_Data_t <= "0000";
 		Green_Data_t <= "0000";
 		Blue_Data_t <= "0000";
 	END IF;
+	
+	IF rom_mux = '1' THEN
+		Red_Data_t <= "0000";
+		Green_Data_t <= "0000";
+		Blue_Data_t <= "1111";
+	END IF;
+	
+	
 END PROCESS;
 
 Red_Data <= Red_Data_t;
