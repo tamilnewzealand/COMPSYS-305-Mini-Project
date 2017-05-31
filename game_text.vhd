@@ -645,95 +645,95 @@ begin
 			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);	
 		--Tens Digit
 		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(272, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(284, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(288, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= tens;
 		--Ones Digit
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(284, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(300, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(288, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(304, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= ones;	
 		--
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(300, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(316, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(304, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(320, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);	
 		--*
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(316, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(332, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(320, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(336, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(42, 6);
 		--
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(332, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(348, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(336, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(352, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);
 		--T
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(348, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(364, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(352, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(368, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(20, 6);
 		--I
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(364, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(380, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(368, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(384, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(9, 6);
 		--M
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(380, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(396, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(384, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(400, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(13, 6);
 		--E
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(396, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(412, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(400, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(416, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(5, 6);	
 		-- 
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(412, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(428, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(416, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(432, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= CONV_STD_LOGIC_VECTOR(32, 6);	
 		--Tens Digit
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(428, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(444, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(432, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(448, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
 			char_col <= pixel_column_t(3 downto 1);
 			char_add <= time_tens;
 		--Ones Digit
-		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(444, 10)) and
-			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(460, 10)) and
+		elsif (pixel_column_t >= CONV_STD_LOGIC_VECTOR(448, 10)) and
+			(pixel_column_t <= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t >= CONV_STD_LOGIC_VECTOR(464, 10)) and
 			(pixel_row_t <= CONV_STD_LOGIC_VECTOR(480, 10)) then
 			char_row <= pixel_row_t(3 downto 1);
